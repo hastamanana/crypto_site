@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Управление активами{% endblock %}
+
+{% block extra_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% if not user.is_authenticated %}
+    <h1>Доступ ограничен</h1>
+    <p>Для просмотра своих активов вам необходимо войти в систему.</p>
+    <div style="text-align: center; margin-top: 20px;">
+      <a href="{% url 'login' %}" class="btn-add">Войти</a> или
+      <a href="{% url 'register' %}" class="btn-add">Зарегистрироваться</a>
+    </div>
+    {% else %}
+    <h1>Управление активами</h1>
+    <p style="text-align: center; color: #555;">
+        Здесь вы можете добавлять криптоактивы, учитывать покупки и отслеживать среднюю цену.
+    </p>
+
+    <div class="form-section">
+        <h3>➕ Добавить актив</h3>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_asset">
+            <input type="text" name="asset_name" placeholder="Например: BTC" required>
+            <button type="submit" class="btn-add">Добавить</button>
+        </form>
+    </div>
+
+    {% for asset in assets %}
+    <div class="asset-card">
+        <div class="asset-header">
+            <strong>{{ asset.name }}</strong>
+            <form method="post" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="delete_asset">
+                <input type="hidden" name="asset_id" value="{{ asset.id }}">
+                <button type="submit" class="btn-danger">Удалить</button>
+            </form>
+        </div>
+
+        <p>Средняя цена: <strong>{{ asset.average_price }} USD</strong></p>
+
+        <form method="post" class="inline-form">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="add_purchase">
+            <input type="hidden" name="asset_id" value="{{ asset.id }}">
+            <input type="number" step="any" name="quantity" placeholder="Количество" required>
+            <input type="number" step="any" name="price" placeholder="Цена за единицу" required>
+            <button type="submit" class="btn-submit">Добавить покупку</button>
+        </form>
+
+        {% if asset.purchase_set.exists %}
+        <table class="purchase-table">
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Количество</th>
+                    <th>Цена за единицу</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for purchase in asset.purchase_set.all %}
+                <tr>
+                    <td>{{ purchase.date|date:"d.m.Y H:i" }}</td>
+                    <td>{{ purchase.quantity }}</td>
+                    <td>{{ purchase.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: #888; font-size: 14px;">Нет покупок для этого актива.</p>
+        {% endif %}
+    </div>
+    <hr class="hr-horizontal-gradient">
+    <br>
+    {% empty %}
+    <p>У вас пока нет активов.</p>
+    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

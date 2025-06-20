@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="icon" href="{% static 'crypto/images/favicon.ico' %}" type="image/x-icon">
+  <link type="text/css" href="{% static 'crypto/css/style.css' %}" rel="stylesheet"/>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- ✅ Перенесли nav внутрь body -->
+  <nav>
+    <div class="logo"><a href="/">Crypto App</a></div>
+    <div class="menu">
+      <a href="/assets">Мои активы</a>
+      <a href="/forecast">Прогноз цены</a>
+      {% if user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit">Выйти</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}">Войти</a>
+      {% endif %}
+      <a href="{% url 'register' %}">Регистрация</a>
+    </div>
+  </nav>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="container">
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% block content %}
+  {% endblock %}
+
+</body>
+</html>

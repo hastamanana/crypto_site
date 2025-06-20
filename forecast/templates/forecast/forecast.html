@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}
+Движение цены
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Прогноз движения криптовалют</h1>
+  <p style="text-align: center; color: #555; font-size: 18px;">
+    Ниже представлен прогноз изменения стоимости активов на основе анализа модели ИИ.
+  </p>
+
+  <!-- Пример таблицы -->
+  <table class="forecast-table">
+    <thead>
+      <tr>
+        <th>Актив</th>
+        <th>Текущая цена</th>
+        <th>Прогноз на неделю</th>
+        <th>Прогноз на месяц</th>
+        <th>Прогноз на полгода</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bitcoin (BTC)</td>
+        <td>$ {{ btc_price }}</td>
+        <td>{{ week_btc }}</td>
+        <td>{{ month_btc }}</td>
+        <td>{{ six_months_btc }}</td>
+      </tr>
+      <tr>
+        <td>Ethereum (ETH)</td>
+        <td>$ {{ eth_price }}</td>
+        <td>{{ week_eth }}</td>
+        <td>{{ month_eth }}</td>
+        <td>{{ six_months_eth }}</td>
+      </tr>
+      <!-- можно добавить больше -->
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+body {
+    background-color: #f9f9f9; /* Общее фоновое цветовое оформление */
+    color: #333; /* Основной текст - более темный цвет для лучшей читаемости */
+}
+
+.container {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.btn-add, .btn-submit {
+    background-color: #3498db; /* Яркий синий цвет */
+    color: white; /* Белый цвет текста */
+    border: none; /* Убираем границы */
+    border-radius: 5px; /* Закругленные углы */
+    padding: 10px 20px; /* Поля внутри кнопки */
+    font-size: 16px; /* Размер шрифта */
+    font-weight: bold; /* Жирный шрифт */
+    cursor: pointer; /* Указатель при наведении */
+    transition: background-color 0.3s, transform 0.2s; /* Плавный переход */
+}
+
+/* Эффект при наведении */
+.btn-add:hover, .btn-submit:hover {
+    background-color: #2980b9; /* Темный синий цвет при наведении */
+    transform: scale(1.05); /* Немного увеличиваем размер кнопки */
+}
+
+/* Эффект при нажатии */
+.btn-add:active, .btn-submit:active {
+    transform: scale(0.95); /* Немного уменьшаем размер при нажатии */
+}
+
+h1 {
+    font-size: 28px; /* Размер заголовка */
+    margin-bottom: 20px; /* Отступ снизу */
+    text-align: center; /* Центрирование заголовка */
+    color: #18bde6; /* Цвет заголовка */
+}
+
+h3 {
+    font-size: 20px;
+    margin-top: 20px; /* Отступ сверху */
+    color: #222;
+}
+
+.btn-danger {
+    background-color: #e74c3c; /* Красный цвет для кнопки "Удалить" */
+    color: white; /* Цвет текста кнопки */
+    border: none;
+    padding: 10px 15px; /* Паттинг для кнопки */
+    border-radius: 5px; /* Закругленные углы для кнопки */
+    cursor: pointer; /* Указатель при наведении */
+    transition: background-color 0.3s; /* Плавный переход */
+}
+
+.btn-danger:hover {
+    background-color: #c0392b; /* Более темный красный при наведении */
+}
+
+form {
+    margin-top: 0px; /* Отступ сверху для формы */
+}
+
+.asset-card {
+    background-color: #f8f9fa; /* Фон карточки актива */
+    border: 1px solid #ddd; /* Цвет границы карточки */
+    border-radius: 8px; /* Закругленные углы карточки */
+    padding: 15px; /* Паттинг внутри карточки */
+    margin-bottom: 15px; /* Отступ снизу между карточками */
+    transition: box-shadow 0.3s; /* Плавный эффект тени */
+}
+
+.asset-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Эффект тени при наведении */
+}
+
+.purchase-table {
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.purchase-table th,
+.purchase-table td {
+    border: 1px solid #ccc; /* Цвет границ таблицы */
+    padding: 8px; /* Паттинг для ячеек */
+    text-align: center; /* Центрирование текста в ячейках */
+}
+
+.purchase-table th {
+    background-color: #18bde6; /* Основной цвет заголовков таблицы */
+    color: white; /* Цвет текста заголовков таблицы */
+}
+
+.hr-horizontal-gradient {
+    margin: 20px 0;
+    height: 6px;
+    border: none;
+    background: linear-gradient(45deg, #18bde6, #ddd); /* Градиент для разделителей */
+}
