@@ -11,26 +11,29 @@ def assets(request):
     if not user.is_authenticated:
         return render(request, 'assets/assets_manage.html')
 
-    if request.method == 'POST':
-        action = request.POST.get('action')
+    if not request.method == 'POST':
 
-        if action == 'add_asset':
-            name = request.POST.get('asset_name')
-            if name:
-                Asset.objects.create(user=user, name=name)
+        assets = Asset.objects.filter(user=user)
+        return render(request, 'assets/assets_manage.html', {'assets': assets})
+    
+    action = request.POST.get('action')
 
-        elif action == 'add_purchase':
-            asset_id = request.POST.get('asset_id')
-            quantity = float(request.POST.get('quantity'))
-            price = float(request.POST.get('price'))
-            asset = Asset.objects.get(id=asset_id, user=user)
-            Purchase.objects.create(asset=asset, quantity=quantity, price=price)
+    if action == 'add_asset':
+        name = request.POST.get('asset_name')
+        if name:
+            Asset.objects.create(user=user, name=name)
 
-        elif action == 'delete_asset':
-            asset_id = request.POST.get('asset_id')
-            Asset.objects.filter(id=asset_id, user=user).delete()
+    elif action == 'add_purchase':
+        asset_id = request.POST.get('asset_id')
+        quantity = float(request.POST.get('quantity'))
+        price = float(request.POST.get('price'))
+        asset = Asset.objects.get(id=asset_id, user=user)
+        Purchase.objects.create(asset=asset, quantity=quantity, price=price)
 
-        return redirect('manage_assets')
+    elif action == 'delete_asset':
+        asset_id = request.POST.get('asset_id')
+        Asset.objects.filter(id=asset_id, user=user).delete()
 
-    assets = Asset.objects.filter(user=user)
-    return render(request, 'assets/assets_manage.html', {'assets': assets})
+    return redirect('manage_assets')
+
+    

@@ -6,8 +6,12 @@ from .parse_investing import main_inv
 from .parse_trading_view import main_tv
 from .price_token import get_btc_price, get_eth_price
 
+from environs import Env
+
 
 class Predict_price:
+
+    
    
 
     """
@@ -21,6 +25,11 @@ class Predict_price:
         news_headers_investing (str): Заголовки новостей с сайта `investing`.
         news_headers_trading_view (str): Заголовки новостей с сайта `trading view`.
     """
+    @classmethod
+    def get_token(cls):
+        env = Env()
+        env.read_env()
+        return env('API_TOKEN')
 
 
     btc_price = get_btc_price()
@@ -52,7 +61,7 @@ class Predict_price:
             news_headers_investing: Заголовки крипто-новостей c сайта `investing`.
             news_headers_trading_view: Заголовки крипто-новостей c сайта`trading view`.
         """
-        token = 'sk-YhX3Lhb39fX97k3ewp5VPE5nD3hErdcJ'
+        token = Predict_price.get_token()
         self.news_headers_investing = news_headers_investing
         self.news_headers_trading_view = news_headers_trading_view
 
@@ -73,7 +82,7 @@ class Predict_priceThisOutOfOpenAI(Predict_price):
             news_headers_investing: Заголовки крипто-новостей c сайта `investing`.
             news_headers_trading_view: Заголовки крипто-новостей c сайта`trading view`.
         """
-        self.token = 'sk-YhX3Lhb39fX97k3ewp5VPE5nD3hErdcJ'
+        self.token = Predict_price.get_token()
         super().__init__(news_headers_investing, news_headers_trading_view)
 
     def get_response(self) -> str:
