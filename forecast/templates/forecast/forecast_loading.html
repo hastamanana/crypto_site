@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Прогноз криптовалют{% endblock %}
+
+{% block content %}
+<div id="spinner" style="text-align:center; margin-top: 100px;">
+    <div class="loader"></div>
+    <p>Получаем прогноз рынка…</p>
+</div>
+
+<div id="forecast" style="display:none;"></div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #00bcd4;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    fetch("{% url 'forecast_data' %}")
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('spinner').style.display = 'none';
+            const block = document.getElementById('forecast');
+            block.innerHTML = html;
+            block.style.display = 'block';
+        });
+});
+</script>
+{% endblock %}

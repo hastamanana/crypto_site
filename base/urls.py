@@ -22,5 +22,5 @@ urlpatterns = [
     path('', include('crypto.urls')),
     path('', include('users.urls')),
     path('', include('assets.urls')),
-    path('', include('forecast.urls')),
+    path('forecast/', include('forecast.urls')),
 ]

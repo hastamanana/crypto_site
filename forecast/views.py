@@ -2,8 +2,10 @@ from services import price_token
 from services import chat_gpt
 
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 
-def forecast(request):
+def forecast_data(request):
 
     btc_price = price_token.get_btc_price()
     eth_price = price_token.get_eth_price()
@@ -21,4 +23,8 @@ def forecast(request):
         'six_months_eth': price_prediction['six_months']['eth'],
     }
 
-    return render (request, 'forecast/forecast.html', context)
+    html = render_to_string('forecast/forecast.html', context)
+    return HttpResponse(html)
+
+def forecast_view(request):
+    return render(request, 'forecast/forecast_loading.html')
