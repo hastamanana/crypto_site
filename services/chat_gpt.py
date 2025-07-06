@@ -2,7 +2,7 @@ import requests
 import json
 from functools import lru_cache
 
-from .parse_investing import main_inv
+# from .parse_investing import main_inv
 from .parse_trading_view import main_tv
 from .price_token import get_btc_price, get_eth_price
 
@@ -53,7 +53,7 @@ class Predict_price:
                     Отвечай строго в таком формате без лишнего текста.
                     """
 
-    def __init__(self, news_headers_investing, news_headers_trading_view) -> None:
+    def __init__(self, news_headers_trading_view) -> None:
         """
         Инициализация объекта класса Predict_price.
 
@@ -62,7 +62,6 @@ class Predict_price:
             news_headers_trading_view: Заголовки крипто-новостей c сайта`trading view`.
         """
         token = Predict_price.get_token()
-        self.news_headers_investing = news_headers_investing
         self.news_headers_trading_view = news_headers_trading_view
 
 
@@ -74,7 +73,7 @@ class Predict_priceThisOutOfOpenAI(Predict_price):
     Не использует библиотеку OpenAI.
     """
 
-    def __init__(self, news_headers_investing, news_headers_trading_view) -> None:
+    def __init__(self, news_headers_trading_view) -> None:
         """
         Инициализация объекта класса Predict_priceThisOutOfOpenAI.
 
@@ -83,7 +82,7 @@ class Predict_priceThisOutOfOpenAI(Predict_price):
             news_headers_trading_view: Заголовки крипто-новостей c сайта`trading view`.
         """
         self.token = Predict_price.get_token()
-        super().__init__(news_headers_investing, news_headers_trading_view)
+        super().__init__(news_headers_trading_view)
 
     def get_response(self) -> str:
         """
@@ -94,7 +93,7 @@ class Predict_priceThisOutOfOpenAI(Predict_price):
         Returns:
             json: Цены на биткоин и эфир, сгенерированные OpenAI.
         """
-        user_request = (f'Заголовки: {'. '.join(self.news_headers_investing)}. {'. '.join(self.news_headers_trading_view)}')
+        user_request = (f"Заголовки: {'. '.join(self.news_headers_trading_view)}")
 
         # Заголовки запроса
         headers = {
@@ -127,7 +126,7 @@ class Predict_priceThisOutOfOpenAI(Predict_price):
         
 @lru_cache
 def main():
-    crypto_news = Predict_priceThisOutOfOpenAI(news_headers_investing=main_inv(), news_headers_trading_view=main_tv())
+    crypto_news = Predict_priceThisOutOfOpenAI(news_headers_trading_view=main_tv())
     res =  crypto_news.get_response()
     res_json = json.loads(res)
     print(res_json)

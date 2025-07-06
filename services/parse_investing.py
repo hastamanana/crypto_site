@@ -5,11 +5,23 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 
 
 url = 'https://ru.investing.com/news/cryptocurrency-news'
-driver = webdriver.Chrome()
+
+options = Options()
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-gpu')
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--headless=new')  # Современный стабильный режим
+options.add_argument('--disable-software-rasterizer')  
+options.add_argument('--start-maximized')
+options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
+
+
+driver = webdriver.Chrome(options=options)
 
 class WebDriver:
     def __init__(self, driver, url):
@@ -25,8 +37,8 @@ class WebDriver:
 
     def parse(self):
         self.driver.get(self.url)
-        wait = WebDriverWait(self.driver, 15)
-        wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'news-analysis-v2_content__z0iLP')))
+        wait = WebDriverWait(self.driver, 30)
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'news-analysis-v2_content__z0iLP')))
         titles = self.driver.find_elements(By.CLASS_NAME, 'news-analysis-v2_content__z0iLP')
         return titles
     
@@ -40,6 +52,7 @@ class WebDriver:
 
 def main_inv():
     with WebDriver(driver=driver, url=url) as wd:
+        print(wd.print_titles())
         return wd.print_titles()
 
 
@@ -49,11 +62,6 @@ if __name__ == '__main__':
     except Exception as e:
         print(e)
     
-
-
-
-
-
 
 
 
