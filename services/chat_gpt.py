@@ -9,10 +9,7 @@ from .price_token import get_btc_price, get_eth_price
 from environs import Env
 
 
-class Predict_price:
-
-    
-   
+class Predict_price:   
 
     """
     Класс для прогнозирования цены BTC + ETH на основе заголовков мировых новостей.
